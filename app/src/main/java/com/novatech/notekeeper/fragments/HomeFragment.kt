@@ -27,7 +27,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setHasOptionsMenu(true)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(

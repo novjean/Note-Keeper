@@ -1,5 +1,6 @@
 package com.novatech.notekeeper.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -13,8 +14,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.novatech.notekeeper.MainActivity
 import com.novatech.notekeeper.R
-import com.novatech.notekeeper.adapter.NoteAdapter
-import com.novatech.notekeeper.databinding.FragmentHomeBinding
 import com.novatech.notekeeper.databinding.FragmentUpdateBinding
 import com.novatech.notekeeper.model.Note
 import com.novatech.notekeeper.viewmodel.NoteViewModel
@@ -26,12 +25,9 @@ class UpdateFragment : Fragment(R.layout.fragment_update) {
 
     private lateinit var notesViewModel: NoteViewModel
 
-    private lateinit var currentNote: Note
-
     // since the update fragment contains arguments in nav_graph
     private val args : UpdateFragmentArgs by navArgs()
-
-    private lateinit var mView: View
+    private lateinit var currentNote: Note
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +68,15 @@ class UpdateFragment : Fragment(R.layout.fragment_update) {
     }
 
     private fun deleteNote() {
-        
+        AlertDialog.Builder(activity).apply {
+            setTitle("Delete Note")
+            setMessage("Are you sure you want to delete this note?")
+            setPositiveButton("Delete"){_,_ ->
+                notesViewModel.deleteNote(currentNote)
+                view?.findNavController()?.navigate(R.id.action_updateFragment_to_homeFragment)
+            }
+            setNegativeButton("Cancel", null)
+        }.create().show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -88,32 +92,12 @@ class UpdateFragment : Fragment(R.layout.fragment_update) {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.menu_save -> {
-                saveNote(mView)
+            R.id.menu_delete -> {
+                deleteNote()
             }
         }
 
         return super.onOptionsItemSelected(item)
     }
-
-    private fun saveNote(view: View){
-        val noteTitle = binding.etNoteTitleUpdate.text.toString().trim()
-        val noteBody = binding.etNoteBodyUpdate.text.toString().trim()
-
-        if(noteTitle.isNotEmpty()){
-            // passing 0 as primary field is auto generate
-            val note = Note(0, noteTitle, noteBody)
-
-            notesViewModel.addNote(note)
-
-            Toast.makeText(context, "Note saved successfully",
-                Toast.LENGTH_LONG).show()
-
-            view.findNavController().navigate(R.id.action_newNoteFragment_to_homeFragment)
-        } else {
-            Toast.makeText(context, "Please enter note title", Toast.LENGTH_LONG).show()
-        }
-    }
-
 
 }
