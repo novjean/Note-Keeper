@@ -5,8 +5,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.novatech.notekeeper.viewmodel.NoteViewModel
 
 class MainActivity : AppCompatActivity() {
+    lateinit var noteViewModel: NoteViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
