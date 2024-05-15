@@ -9,15 +9,35 @@
         android:id="@+id/homeFragment"
         android:name="com.novatech.notekeeper.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_newNoteFragment"
+            app:destination="@id/newNoteFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_updateFragment"
+            app:destination="@id/updateFragment" />
+    </fragment>
     <fragment
         android:id="@+id/newNoteFragment"
         android:name="com.novatech.notekeeper.fragments.NewNoteFragment"
         android:label="fragment_new_note"
-        tools:layout="@layout/fragment_new_note" />
+        tools:layout="@layout/fragment_new_note" >
+        <action
+            android:id="@+id/action_newNoteFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/updateFragment"
         android:name="com.novatech.notekeeper.fragments.UpdateFragment"
         android:label="fragment_update"
-        tools:layout="@layout/fragment_update" />
+        tools:layout="@layout/fragment_update" >
+        <action
+            android:id="@+id/action_updateFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <argument
+            android:name="note"
+            app:argType="com.novatech.notekeeper.model.Note"
+            app:nullable="true">
+        </argument>
+    </fragment>
 </navigation>
